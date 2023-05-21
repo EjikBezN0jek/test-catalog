@@ -4,41 +4,33 @@
       v-if="city"
       class="header__item"
       @click="toggleModal">
-      {{ city.city }}
+      {{ this.city.city }}
     </p>
     <Modal
       v-if="isModalOpen"
       @toggleModal="toggleModal"
-      @setCity="setCity"></Modal>
+      @setCity="$emit('setCity', $event)" />
   </div>
 </template>
 
 <script>
   import Modal from '@/components/Modal.vue';
-  import { fetchCityById } from '@/api/catalog';
 
   export default {
     name: 'Header',
     components: { Modal },
+    inject: ['city'],
     data() {
       return {
         isModalOpen: false,
-        city: {},
       };
     },
+    emits: ['setCity'],
     methods: {
       toggleModal() {
-        return (this.isModalOpen = !this.isModalOpen);
+        this.isModalOpen = !this.isModalOpen;
+        document.body.classList.toggle('lock');
       },
-      async setCity(id = 1) {
-        this.city = await fetchCityById(id);
-        localStorage.setItem('city', JSON.stringify(this.city));
-      },
-    },
-    async mounted() {
-      !JSON.parse(localStorage.getItem('city'))
-        ? this.setCity()
-        : (this.city = JSON.parse(localStorage.getItem('city')));
     },
   };
 </script>
@@ -64,6 +56,6 @@
     left: -19px;
     width: 11px;
     height: 16px;
-    background: url(../assets/icon.svg) center/contain no-repeat;
+    background: url(../assets/pin-icon.svg) center/contain no-repeat;
   }
 </style>

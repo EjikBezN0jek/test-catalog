@@ -21,3 +21,12 @@ export const fetchCities = async city => {
     console.log(e);
   }
 };
+
+export const fetchAllCategories = async id => {
+  try {
+    const { data } = await api.get('menutags/', { params: { city_id: id } });
+    return data.tags;
+  } catch (e) {
+    console.log(e);
+  }
+};

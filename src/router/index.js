@@ -1,20 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Catalog from '../views/Catalog.vue';
 
 const routes = [
   {
     path: '/',
     name: 'catalog',
-    component: Catalog,
+    component: () => import('@/views/Catalog.vue'),
   },
-  // {
-  //   path: '/about',
-  //   name: 'about',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
-  // },
+  {
+    path: '/category/:categorySlug/:subcategorySlug?',
+    name: 'category',
+    component: () => import('@/views/Category.vue'),
+  },
 ];
 
 const router = createRouter({

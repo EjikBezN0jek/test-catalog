@@ -1,5 +1,7 @@
 <template>
-  <div class="modal">
+  <div
+    class="modal"
+    @click.self="$emit('toggleModal')">
     <div class="modal__dialog">
       <p class="modal__header">Выбор населённого пункта:</p>
       <form
@@ -10,7 +12,8 @@
             type="text"
             class="form__input"
             placeholder="Например, Санкт-петербург"
-            v-model.trim="searchedCityQuery" />
+            v-model.trim="searchedCityQuery"
+            ref="input" />
           <div
             v-if="citiesList.length"
             class="city__list">
@@ -55,6 +58,7 @@
         chosenCityId: 0,
       };
     },
+    emits: ['toggleModal', 'setCity'],
     watch: {
       searchedCityQuery(newValue) {
         newValue.length >= 3 ? this.debounceSearch() : clearTimeout(this.timer);
@@ -82,6 +86,9 @@
           this.$emit('toggleModal');
         }
       },
+    },
+    mounted() {
+      this.$refs.input.focus();
     },
   };
 </script>
@@ -127,7 +134,7 @@
 
   .btn-times {
     position: absolute;
-    background: url(../assets/icon-2.svg) center/contain no-repeat;
+    background: url(../assets/times-icon.svg) center/contain no-repeat;
     z-index: 999;
     cursor: pointer;
   }
