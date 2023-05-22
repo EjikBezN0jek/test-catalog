@@ -1,47 +1,49 @@
 <template>
-  <div
-    class="modal"
-    @click.self="$emit('toggleModal')">
-    <div class="modal__dialog">
-      <p class="modal__header">Выбор населённого пункта:</p>
-      <form
-        class="modal__form"
-        @submit.prevent="applyCity">
-        <div class="search">
-          <input
-            type="text"
-            class="form__input"
-            placeholder="Например, Санкт-петербург"
-            v-model.trim="searchedCityQuery"
-            ref="input" />
-          <div
-            v-if="citiesList.length"
-            class="city__list">
+  <Teleport to="body">
+    <div
+      class="modal"
+      @click.self="$emit('toggleModal')">
+      <div class="modal__dialog">
+        <p class="modal__header">Выбор населённого пункта:</p>
+        <form
+          class="modal__form"
+          @submit.prevent="applyCity">
+          <div class="search">
+            <input
+              type="text"
+              class="form__input"
+              placeholder="Например, Санкт-петербург"
+              v-model.trim="searchedCityQuery"
+              ref="input" />
             <div
-              v-for="city in citiesList"
-              :key="city.id"
-              class="list__item"
-              @click="chooseCity(city)">
-              {{ city.label }}
+              v-if="citiesList.length"
+              class="city__list">
+              <div
+                v-for="city in citiesList"
+                :key="city.id"
+                class="list__item"
+                @click="chooseCity(city)">
+                {{ city.label }}
+              </div>
             </div>
+            <i
+              v-if="searchedCityQuery.length"
+              class="btn-times input__btn--remove"
+              @click="clearInput" />
           </div>
-          <i
-            v-if="searchedCityQuery.length"
-            class="btn-times input__btn--remove"
-            @click="clearInput" />
-        </div>
-        <button
-          type="submit"
-          class="form__btn"
-          :class="{ 'active-btn': isChosenCity }">
-          Подтвердить
-        </button>
-      </form>
-      <i
-        class="btn-times modal__btn--close"
-        @click="$emit('toggleModal')"></i>
+          <button
+            type="submit"
+            class="btn form__btn"
+            :class="{ 'btn--active': isChosenCity }">
+            Подтвердить
+          </button>
+        </form>
+        <i
+          class="btn-times modal__btn--close"
+          @click="$emit('toggleModal')"></i>
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script>
@@ -84,6 +86,7 @@
         if (this.isChosenCity) {
           this.$emit('setCity', this.chosenCityId);
           this.$emit('toggleModal');
+          this.$router.push({ name: 'home' });
         }
       },
     },
@@ -105,6 +108,18 @@
     padding: 10px;
     background: rgba(0, 0, 0, 0.5);
     z-index: 99;
+
+    --dark-base-color: #272727;
+    --light-base-color: #979797;
+    --lightest-base-color: #9797974d;
+
+    font-family: 'Futura PT', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: left;
+    color: var(--dark-base-color);
+    font-weight: 600;
+    font-size: 15px;
   }
 
   .modal__dialog {
@@ -189,26 +204,8 @@
   }
 
   .form__btn {
-    font-family: inherit;
-    font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 1.75px;
     text-transform: uppercase;
-    padding: 13px 24px;
-    color: var(--dark-base-color);
-    border-radius: 24px;
-    border: 2px solid var(--lightest-base-color);
-    background: transparent;
-    opacity: 0.5;
-    cursor: pointer;
-  }
-
-  .active-btn {
-    color: white;
-    border: none;
-    background: linear-gradient(270deg, #ffa800 0%, #ff6f00 60.2%);
-    box-shadow: 0 20px 20px -15px #ff6f00;
-    opacity: 1;
+    letter-spacing: 1.75px;
   }
 
   .city__list {

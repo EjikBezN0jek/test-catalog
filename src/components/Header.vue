@@ -38,9 +38,16 @@
 <style scoped>
   .header {
     width: 100%;
-    padding: 28px 20px;
+    padding: 28px 10px;
     background: white;
     box-shadow: 0px 2px 4px rgba(39, 39, 39, 0.1);
+    z-index: 999;
+  }
+
+  @media screen and (min-width: 576px) {
+    .header {
+      padding: 28px 20px;
+    }
   }
 
   .header__item {

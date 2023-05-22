@@ -3,13 +3,13 @@ import { createRouter, createWebHistory } from 'vue-router';
 const routes = [
   {
     path: '/',
-    name: 'catalog',
-    component: () => import('@/views/Catalog.vue'),
+    name: 'home',
+    component: () => import('@/views/Home.vue'),
   },
   {
     path: '/category/:categorySlug/:subcategorySlug?',
-    name: 'category',
-    component: () => import('@/views/Category.vue'),
+    name: 'catalog',
+    component: () => import('@/views/Catalog.vue'),
   },
 ];
 

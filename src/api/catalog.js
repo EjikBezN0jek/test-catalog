@@ -30,3 +30,12 @@ export const fetchAllCategories = async id => {
     console.log(e);
   }
 };
+
+export const fetchProducts = async (cityId, slug) => {
+  try {
+    const { data } = await api.get(`menutags/${slug}`, { params: { city_id: cityId } });
+    return data.products;
+  } catch (e) {
+    console.log(e);
+  }
+};
